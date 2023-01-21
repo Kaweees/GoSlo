@@ -71,14 +71,15 @@ class _DashboardState extends State<Dashboard> {
         bottomSheet: BottomSheet(
           onClosing: () {},
           enableDrag: false,
+          backgroundColor: Colors.transparent,
           builder: (context) {
             return Container(
               height: MediaQuery.of(context).size.height * 0.3,
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30)),
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40)),
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
@@ -93,7 +94,7 @@ class _DashboardState extends State<Dashboard> {
                   Column(
                     children: [
                       const Padding(
-                        padding: EdgeInsets.only(top: 10),
+                        padding: EdgeInsets.only(top: 15),
                         child: Text(
                           "Start Quest",
                           style: TextStyle(
@@ -101,7 +102,22 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 40),
+                        margin:
+                            const EdgeInsets.only(top: 20, left: 20, right: 20),
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            boxShadow: const [
+                              BoxShadow(
+                                blurRadius: 7,
+                                color: Color(0x53000000),
+                                offset: Offset(0, 2),
+                              )
+                            ],
+                            border: Border.all(
+                                width: 2,
+                                color: const Color.fromRGBO(21, 71, 52, 1))),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -116,14 +132,13 @@ class _DashboardState extends State<Dashboard> {
                                     "https://www.slocity.org/home/showpublishedimage/18503/637992694344400000"),
                               ),
                             ),
-                            
                             Container(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.only(left: 15),
+                                    padding: const EdgeInsets.only(left: 15),
                                     child: SizedBox(
                                       width: MediaQuery.of(context).size.width *
                                           0.6,
@@ -134,7 +149,7 @@ class _DashboardState extends State<Dashboard> {
                                           const Text(
                                             "San Luis Obispo Sight Seeing Quest",
                                             style: TextStyle(
-                                                fontWeight: FontWeight.bold,
+                                                fontWeight: FontWeight.w600,
                                                 fontSize: 20),
                                           ),
                                           Container(
@@ -160,7 +175,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.9,
-                    margin: const EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: 10, bottom: 25),
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           elevation: 10,
@@ -174,7 +189,10 @@ class _DashboardState extends State<Dashboard> {
                         child: Container(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             margin: const EdgeInsets.only(top: 13, bottom: 13),
-                            child: const Text("Next"))),
+                            child: const Text(
+                              "Next",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ))),
                   ),
                 ],
               ),
