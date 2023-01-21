@@ -10,6 +10,10 @@ class Storepage extends StatefulWidget {
 class _StorepageState extends State<Storepage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return MaterialApp(
+      home: Scaffold(
+        body: Container(),
+      ),
+    );
   }
 }

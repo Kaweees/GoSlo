@@ -10,6 +10,10 @@ class ChooseRolePage extends StatefulWidget {
 class _ChooseRolePageState extends State<ChooseRolePage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return MaterialApp(
+      home: Scaffold(
+        body: Container(),
+      ),
+    );
   }
 }

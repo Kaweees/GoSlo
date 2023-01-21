@@ -10,6 +10,10 @@ class Quests extends StatefulWidget {
 class _QuestsState extends State<Quests> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return MaterialApp(
+      home: Scaffold(
+        body: Container(),
+      ),
+    );
   }
 }
