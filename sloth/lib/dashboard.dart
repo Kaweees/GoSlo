@@ -26,8 +26,8 @@ class _DashboardState extends State<Dashboard> {
   double progressVal = 0;
   var totalProgressVal = Data.data["quests"][0]["quest_stops"].length;
   var ready = false;
-  ValueNotifier<Map> _myString = ValueNotifier<Map>(Data.data);
   Timer? timer;
+  var coinsGiven = false;
 
   var _index = 0;
 
@@ -59,6 +59,15 @@ class _DashboardState extends State<Dashboard> {
     }
 
     progressVal = completed / totalProgressVal;
+
+    if (progressVal == 1 && coinsGiven == false) {
+      // Quest Complete
+      Data.coins =
+          Data.coins + int.parse(Data.data["quests"]![0]["reward"].toString());
+      coinsGiven = true;
+    }
+
+    print("PROGRESS VAL" + progressVal.toString() + " ++++++++++++");
 
     setState(() {});
   }
@@ -320,7 +329,6 @@ class _DashboardState extends State<Dashboard> {
                           ],
                         )
                       : Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Column(
                               children: [
@@ -352,74 +360,154 @@ class _DashboardState extends State<Dashboard> {
                                 )
                               ],
                             ),
-                            Container(
-                                width: MediaQuery.of(context).size.width * 0.85,
-                                margin:
-                                    const EdgeInsets.only(top: 10, bottom: 20),
-                                child: LinearProgressIndicator(
-                                  color: const Color.fromRGBO(21, 71, 52, 1),
-                                  backgroundColor: Colors.grey,
-                                  value: progressVal,
-                                  minHeight: 8,
+                            Visibility(
+                                visible: progressVal != 1,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.85,
+                                        margin: const EdgeInsets.only(
+                                            top: 30, bottom: 20),
+                                        child: LinearProgressIndicator(
+                                          color: const Color.fromRGBO(
+                                              21, 71, 52, 1),
+                                          backgroundColor: Colors.grey,
+                                          value: progressVal,
+                                          minHeight: 8,
+                                        )),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.9,
+                                      margin: const EdgeInsets.only(
+                                          top: 10, bottom: 0),
+                                      child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            elevation: 10,
+                                            shadowColor: Colors.grey,
+                                            backgroundColor: Colors.grey,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                CupertinoPageRoute(
+                                                    builder: (context) =>
+                                                        const QuestStops()));
+                                          },
+                                          child: Container(
+                                              padding: const EdgeInsets.only(
+                                                  top: 5, bottom: 5),
+                                              margin: const EdgeInsets.only(
+                                                  top: 13, bottom: 13),
+                                              child: const Text(
+                                                "View Stops",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ))),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.9,
+                                      margin: const EdgeInsets.only(
+                                          top: 5, bottom: 25),
+                                      child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            elevation: 10,
+                                            shadowColor: Colors.red,
+                                            backgroundColor: Colors.red,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              questStarted = false;
+                                            });
+                                          },
+                                          child: Container(
+                                              padding: const EdgeInsets.only(
+                                                  top: 5, bottom: 5),
+                                              margin: const EdgeInsets.only(
+                                                  top: 13, bottom: 13),
+                                              child: const Text(
+                                                "Stop Quest",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ))),
+                                    ),
+                                  ],
                                 )),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.9,
-                              margin: const EdgeInsets.only(top: 10, bottom: 0),
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 10,
-                                    shadowColor: Colors.grey,
-                                    backgroundColor: Colors.grey,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                            builder: (context) =>
-                                                const QuestStops()));
-                                  },
-                                  child: Container(
-                                      padding: const EdgeInsets.only(
-                                          top: 5, bottom: 5),
-                                      margin: const EdgeInsets.only(
-                                          top: 13, bottom: 13),
-                                      child: const Text(
-                                        "View Stops",
+                            Visibility(
+                                visible: progressVal == 1,
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height *
+                                          0.06),
+                                  child: Column(
+                                    children: [
+                                      const Text(
+                                        "Quest Complete",
                                         style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: 25,
                                             fontWeight: FontWeight.bold),
-                                      ))),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.9,
-                              margin: const EdgeInsets.only(top: 5, bottom: 25),
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 10,
-                                    shadowColor: Colors.red,
-                                    backgroundColor: Colors.red,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      questStarted = false;
-                                    });
-                                  },
-                                  child: Container(
-                                      padding: const EdgeInsets.only(
-                                          top: 5, bottom: 5),
-                                      margin: const EdgeInsets.only(
-                                          top: 13, bottom: 13),
-                                      child: const Text(
-                                        "Stop Quest",
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      const Text(
+                                        "Great Job!",
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ))),
-                            ),
+                                            color: Colors.grey,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.9,
+                                        margin: const EdgeInsets.only(
+                                            top: 20, bottom: 0),
+                                        child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              elevation: 10,
+                                              shadowColor: Colors.grey,
+                                              backgroundColor: Colors.grey,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  CupertinoPageRoute(
+                                                      builder: (context) =>
+                                                          const QuestStops()));
+                                            },
+                                            child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5, bottom: 5),
+                                                margin: const EdgeInsets.only(
+                                                    top: 13, bottom: 13),
+                                                child: const Text(
+                                                  "View Other Quests",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ))),
+                                      ),
+                                    ],
+                                  ),
+                                ))
                           ],
                         ),
                 )),

@@ -26,6 +26,16 @@ class _QuestStopsState extends State<QuestStops> {
   var quest_stops = Data.data['quests'][0]["quest_stops"];
 
   Future loadSteps() async {
+    totalStops = 0;
+    stopsCompleted = 0;
+    _index = 0;
+    current_index = 0;
+    animateCheck = false;
+    code = "";
+
+    steps = [];
+    quest_stops = Data.data['quests'][0]["quest_stops"];
+
     print("loading DATA +++++++++++++++++++++++++++");
     _index = 0;
 
@@ -177,6 +187,8 @@ class _QuestStopsState extends State<QuestStops> {
                                                       ["quest_stops"][_index]
                                                   ["completed"] = true;
 
+                                              /*
+
                                               showDialog<void>(
                                                 context: context,
                                                 barrierDismissible:
@@ -207,7 +219,9 @@ class _QuestStopsState extends State<QuestStops> {
                                                     ],
                                                   );
                                                 },
-                                              );
+                                              ); */
+
+                                              loadSteps();
 
                                               //loadSteps();
                                             }
