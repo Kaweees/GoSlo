@@ -86,15 +86,15 @@ class _SplashState extends State<Splash> {
           decoration: const BoxDecoration(
             color: Color(0x00FFFFFF),
           ),
-          child: const Align(
+          child: Align(
               alignment: AlignmentDirectional(0, 0),
-              child: /*Image.asset(
-              'lib/assets/hermeats_logo.png',
+              child: Image.asset(
+              'lib/assets/logo.png',
               width: MediaQuery.of(context).size.width * 0.5,
               fit: BoxFit.fitWidth,
             ),
-            */
-                  Icon(Icons.map)),
+            
+                  ),
         ),
       ),
     );
