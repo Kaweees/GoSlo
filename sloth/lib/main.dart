@@ -1,7 +1,7 @@
 // Imports
 import 'package:flutter/material.dart';
 import 'package:sloth/dashboard.dart';
-import 'package:sloth/welcome.dart';
+import 'package:sloth/onboarding.dart';
 import 'package:sloth/wrapper.dart';
 
 void main() async {
@@ -10,7 +10,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -31,7 +31,7 @@ class _SplashState extends State<Splash> {
   Future handleLoad() async {
     Future.delayed(const Duration(milliseconds: 3000)).then((_) {
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const Wrapper()));
+          MaterialPageRoute(builder: (context) => const OnBoardingPage()));
     });
   }
 
