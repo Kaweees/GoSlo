@@ -298,7 +298,7 @@ class _QuestStopsState extends State<QuestStops> {
                               child: Column(
                                 children: [
                                   AnimatedCheckmark(
-                                    active: animateCheck,
+                                    active: true,
                                     weight: 12,
                                     size: Size.square(90),
                                     color: Colors.green,
