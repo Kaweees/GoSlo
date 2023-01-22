@@ -202,8 +202,6 @@ class _QuestStopsState extends State<QuestStops> {
                                                         onPressed: () {
                                                           Navigator.of(context)
                                                               .pop();
-                                                          Navigator.of(context)
-                                                              .pop();
                                                         },
                                                       ),
                                                     ],
