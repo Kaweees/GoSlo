@@ -1,6 +1,8 @@
 // Imports
 import 'package:flutter/material.dart';
+import 'package:sloth/dashboard.dart';
 import 'package:sloth/welcome.dart';
+import 'package:sloth/wrapper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +31,7 @@ class _SplashState extends State<Splash> {
   Future handleLoad() async {
     Future.delayed(const Duration(milliseconds: 3000)).then((_) {
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const WelcomePage()));
+          MaterialPageRoute(builder: (context) => const Wrapper()));
     });
   }
 
@@ -50,8 +52,8 @@ class _SplashState extends State<Splash> {
           decoration: const BoxDecoration(
             color: Color(0x00FFFFFF),
           ),
-          child: Align(
-              alignment: const AlignmentDirectional(0, 0),
+          child: const Align(
+              alignment: AlignmentDirectional(0, 0),
               child: /*Image.asset(
               'lib/assets/hermeats_logo.png',
               width: MediaQuery.of(context).size.width * 0.5,
