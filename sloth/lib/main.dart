@@ -7,7 +7,6 @@ import 'package:sloth/dashboard.dart';
 import 'package:sloth/data.dart';
 import 'package:sloth/onboarding.dart';
 import 'package:sloth/wrapper.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'dart:convert';
 
 void main() async {

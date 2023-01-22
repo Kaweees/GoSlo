@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:sloth/ai.dart';
 import 'package:sloth/data.dart';
 import 'package:sloth/quest_stops.dart';
@@ -174,7 +173,7 @@ class _QuestsState extends State<Quests> {
                                     borderRadius: BorderRadius.circular(10),
                                     child: Image.network(
                                         fit: BoxFit.cover,
-                                        "https://www.slocity.org/home/showpublishedimage/18503/637992694344400000"),
+                                        quests[index]["image"].toString()),
                                   ),
                                 ),
                                 Container(

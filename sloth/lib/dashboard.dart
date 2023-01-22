@@ -2,12 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:another_stepper/another_stepper.dart';
-import 'package:draggable_bottom_sheet/draggable_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sloth/data.dart';
 import 'package:sloth/quest_stops.dart';
@@ -235,7 +233,7 @@ class _DashboardState extends State<Dashboard> {
                                               BorderRadius.circular(10),
                                           child: Image.network(
                                               fit: BoxFit.cover,
-                                              "https://www.slocity.org/home/showpublishedimage/18503/637992694344400000"),
+                                              currentQuest["image"].toString()),
                                         ),
                                       ),
                                       Container(

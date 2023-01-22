@@ -42,12 +42,8 @@ dependencies:
   persistent_bottom_nav_bar: ^5.0.2
   another_stepper: ^1.1.6
   qr_bar_code_scanner_dialog: ^0.0.5
-  draggable_bottom_sheet: ^1.0.2
   animated_checkmark: ^1.0.1
   flutter_barcode_scanner: ^2.0.0
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
-  liquid_pull_to_refresh: ^3.0.1
   openai_client: ^0.0.4
 
 dev_dependencies:
