@@ -32,7 +32,9 @@ class _DashboardState extends State<Dashboard> {
   var currentQuest = {
     "name": "San Luis Obispo Sight Seeing Quest",
     "distance": 6.3,
-    "reward": 100
+    "reward": 100,
+    "image":
+        "https://www.slocity.org/home/showpublishedimage/18503/637992694344400000"
   };
 
   Map<MarkerId, Marker> quest_markers = <MarkerId, Marker>{};
