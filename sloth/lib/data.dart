@@ -1,0 +1,96 @@
+class Data {
+  static int coins = 0;
+  static Map data = {
+    "quests": [
+      {
+        "name": "SLO Sight Seeing Quest",
+        "distance": 6.3,
+        "reward": 100,
+        "quest_stops": [
+          {
+            "location_name": "Hearst Castle",
+            "auth_code": "1",
+            "description":
+                "Visit the famous Hearst Castle, a historic mansion and National Historic Landmark that offers tours of the property and its gardens.",
+            "coordinates": {"longitude": -121.58, "latitude": 35.67},
+            "completed": false
+          },
+          {
+            "location_name": "Big Sky Cafe",
+            "auth_code": "2",
+            "description": "A popular breakfast spot in San Luis Obispo",
+            "coordinates": {"longitude": -120.6596156, "latitude": 35.2827524},
+            "completed": false
+          },
+          {
+            "location_name": "Thomas Hill Organics",
+            "auth_code": "3",
+            "description":
+                "Farm-to-table restaurant with a focus on local, organic ingredients",
+            "coordinates": {"longitude": -120.6625, "latitude": 35.2812},
+            "completed": false
+          }
+        ]
+      },
+      {
+        "name": "Good Eats Quest",
+        "distance": 9.1,
+        "reward": 150,
+        "quest_stops": [
+          {
+            "location_name": "Novo",
+            "auth_code": "ghi789",
+            "description": "Contemporary Mediterranean and California cuisine",
+            "coordinates": {"longitude": -120.6645, "latitude": 35.2815},
+            "completed": false
+          },
+          {
+            "location_name": "Sci-Fi Pizza",
+            "auth_code": "jkl012",
+            "description": "Pizza restaurant with a science fiction theme",
+            "coordinates": {"longitude": -120.66, "latitude": 35.28},
+            "completed": false
+          },
+          {
+            "location_name": "Blacksmiths Kitchen",
+            "auth_code": "mno345",
+            "description":
+                "Rustic American cuisine with a focus on seasonal ingredients",
+            "coordinates": {"longitude": -120.6655, "latitude": 35.2825},
+            "completed": false
+          },
+          {
+            "location_name": "Mother's Tavern",
+            "auth_code": "pqr678",
+            "description": "A casual spot for burgers, sandwiches, and beer",
+            "coordinates": {"longitude": -120.66, "latitude": 35.2795},
+            "completed": false
+          },
+          {
+            "location_name": "Taco Temple",
+            "auth_code": "stu901",
+            "description":
+                "Taco restaurant with a variety of unique and flavorful fillings",
+            "coordinates": {"longitude": -120.6625, "latitude": 35.2775},
+            "completed": false
+          },
+          {
+            "location_name": "The Spoon Room",
+            "auth_code": "vwx234",
+            "description":
+                "Contemporary American cuisine with a focus on seafood",
+            "coordinates": {"longitude": -120.6675, "latitude": 35.2820},
+            "completed": false
+          },
+          {
+            "location_name": "The Station",
+            "auth_code": "zyx567",
+            "description": "A cozy spot for coffee, tea, and pastries",
+            "coordinates": {"longitude": -120.6635, "latitude": 35.2810},
+            "completed": false
+          }
+        ]
+      }
+    ]
+  };
+}

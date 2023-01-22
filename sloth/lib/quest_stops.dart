@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:animated_checkmark/animated_checkmark.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:qr_bar_code_scanner_dialog/qr_bar_code_scanner_dialog.dart';
+import 'package:sloth/data.dart';
 
 class QuestStops extends StatefulWidget {
   const QuestStops({super.key});
@@ -11,22 +14,33 @@ class QuestStops extends StatefulWidget {
 }
 
 class _QuestStopsState extends State<QuestStops> {
-  int totalStops = 10;
-  int stopsCompleted = 3;
+  int totalStops = 0;
+  int stopsCompleted = 0;
   int _index = 0;
+  int current_index = 0;
   bool animateCheck = false;
   final _qrBarCodeScannerDialogPlugin = QrBarCodeScannerDialog();
   String? code;
 
   List<Step> steps = [];
+  var quest_stops = Data.data['quests'][0]["quest_stops"];
 
   Future loadSteps() async {
-    steps = [];
+    print("loading DATA +++++++++++++++++++++++++++");
+    _index = 0;
+
+    quest_stops = Data.data['quests'][0]["quest_stops"];
     for (int x = 0; x < quest_stops.length; x++) {
-      print(x);
-      print(_index);
+      totalStops += 1;
+
+      if (quest_stops[x]['completed']) {
+        stopsCompleted += 1;
+        print("INCREMENTING ++++++++++++++++++++++++++++++++++++++");
+        print(_index);
+        _index += 1;
+      }
       steps.add(Step(
-        isActive: _index > x,
+        isActive: quest_stops[x]['completed'],
         title: Text(quest_stops[x]["location_name"].toString()),
         content: Container(
             alignment: Alignment.centerLeft,
@@ -34,6 +48,37 @@ class _QuestStopsState extends State<QuestStops> {
                 quest_stops[x]["location_name"].toString())),
       ));
     }
+    //final database = base.MemoryDatabaseAdapter().database();
+
+    //final snapshot = await database.collection("Quests").document("0").get();
+
+// Use 'exists' to check whether the document exists
+    //if (snapshot.exists) {
+    //var quest_stops = snapshot.data["quest_stops"];
+
+    /*
+      if (quest_stops != null) {
+        print(quest_stops);
+        
+      for (int x = 0; x < quest_stops.length; x++) {
+        print(x);
+        print(_index);
+        steps.add(Step(
+          isActive: _index > x,
+          title: Text(quest_stops[x]["location_name"].toString()),
+          content: Container(
+              alignment: Alignment.centerLeft,
+              child: Text('Scan the QR code given by ' +
+                  quest_stops[x]["location_name"].toString())),
+        ));
+        
+      }
+
+      }
+
+      */
+
+    //}
 
     setState(() {});
   }
@@ -91,7 +136,7 @@ class _QuestStopsState extends State<QuestStops> {
                             fontWeight: FontWeight.w600),
                       ),
                     ),
-                    _index < steps.length - 1
+                    _index < steps.length
                         ? Container(
                             padding: const EdgeInsets.only(top: 7),
                             child: steps.isNotEmpty
@@ -111,8 +156,6 @@ class _QuestStopsState extends State<QuestStops> {
                                     },
                                     onStepCancel: () {},
                                     onStepContinue: () async {
-                                      print(_index);
-                                      print(steps.length);
                                       String barcodeScanRes =
                                           await FlutterBarcodeScanner
                                                   .scanBarcode(
@@ -121,21 +164,88 @@ class _QuestStopsState extends State<QuestStops> {
                                                       false,
                                                       ScanMode.QR)
                                               .then((code) {
-                                        if (code ==
-                                            quest_stops[_index]["auth_code"]) {
-                                          if (_index >= 0 &&
-                                              _index < steps.length) {
-                                            setState(() {
-                                              _index += 1;
-                                              Future.delayed(
-                                                      Duration(seconds: 1))
-                                                  .then((value) {
-                                                animateCheck = true;
-                                              });
-                                            });
-                                            loadSteps();
+                                        print(code);
+                                        print(_index);
+                                        try {
+                                          if (code ==
+                                              quest_stops[_index]
+                                                  ["auth_code"]) {
+                                            if (_index >= 0 &&
+                                                _index < steps.length) {
+                                              // Updates
+                                              Data.data["quests"][0]
+                                                      ["quest_stops"][_index]
+                                                  ["completed"] = true;
+
+                                              showDialog<void>(
+                                                context: context,
+                                                barrierDismissible:
+                                                    false, // user must tap button!
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: const Text(
+                                                        'Activity Completed!'),
+                                                    content:
+                                                        SingleChildScrollView(
+                                                      child: ListBody(
+                                                        children: const <
+                                                            Widget>[
+                                                          Text(
+                                                              'Get the other ones done.'),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                        child: const Text('Ok'),
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+
+                                              //loadSteps();
+                                            }
+                                          } else {
+                                            showDialog<void>(
+                                              context: context,
+                                              barrierDismissible:
+                                                  false, // user must tap button!
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      'Invalid Code!'),
+                                                  content:
+                                                      SingleChildScrollView(
+                                                    child: ListBody(
+                                                      children: const <Widget>[
+                                                        Text(
+                                                            'The code you scanned was invalid. Please try again.'),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child: const Text(
+                                                          'Try again'),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
                                           }
-                                        } else {
+                                        } catch (e) {
                                           showDialog<void>(
                                             context: context,
                                             barrierDismissible:
@@ -166,6 +276,7 @@ class _QuestStopsState extends State<QuestStops> {
                                             },
                                           );
                                         }
+
                                         return "";
                                       });
 

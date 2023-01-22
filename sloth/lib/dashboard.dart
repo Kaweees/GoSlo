@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:another_stepper/another_stepper.dart';
 import 'package:draggable_bottom_sheet/draggable_bottom_sheet.dart';
@@ -6,7 +7,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sloth/data.dart';
 import 'package:sloth/quest_stops.dart';
 import 'package:sloth/quests.dart';
 
@@ -20,119 +23,60 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   bool questStarted = false;
   double maxChildSize = 0.30;
+  double progressVal = 0;
+  var totalProgressVal = Data.data["quests"][0]["quest_stops"].length;
+  var ready = false;
+  ValueNotifier<Map> _myString = ValueNotifier<Map>(Data.data);
+  Timer? timer;
 
   var _index = 0;
-  List quests = [
-    {
-      "name": "San Luis Obispo Sight Seeing Quest",
-      "distance": 6.3,
-      "reward": 100
-    }
-  ];
+
   var currentQuest = {
     "name": "San Luis Obispo Sight Seeing Quest",
     "distance": 6.3,
     "reward": 100
   };
 
-  List quest_stops = [
-    {
-      "location_name": "Hearst Castle",
-      "auth_code": "Random Text",
-      "description":
-          "Visit the famous Hearst Castle, a historic mansion and National Historic Landmark that offers tours of the property and its gardens.",
-      "coordinates": {"longitude": 121.58, "latitude": 35.67},
-      "completed": false
-    },
-    {
-      "location_name": "Big Sky Cafe",
-      "auth_code": "abc123",
-      "description": "A popular breakfast spot in San Luis Obispo",
-      "coordinates": {"longitude": -120.6596156, "latitude": 35.2827524},
-      "completed": false
-    },
-    {
-      "location_name": "Thomas Hill Organics",
-      "auth_code": "def456",
-      "description":
-          "Farm-to-table restaurant with a focus on local, organic ingredients",
-      "coordinates": {"longitude": -120.6625, "latitude": 35.2812},
-      "completed": false
-    },
-    {
-      "location_name": "Novo",
-      "auth_code": "ghi789",
-      "description": "Contemporary Mediterranean and California cuisine",
-      "coordinates": {"longitude": -120.6645, "latitude": 35.2815},
-      "completed": false
-    },
-    {
-      "location_name": "Sci-Fi Pizza",
-      "auth_code": "jkl012",
-      "description": "Pizza restaurant with a science fiction theme",
-      "coordinates": {"longitude": -120.66, "latitude": 35.28},
-      "completed": false
-    },
-    {
-      "location_name": "Blacksmiths Kitchen",
-      "auth_code": "mno345",
-      "description":
-          "Rustic American cuisine with a focus on seasonal ingredients",
-      "coordinates": {"longitude": -120.6655, "latitude": 35.2825},
-      "completed": false
-    },
-    {
-      "location_name": "Mother's Tavern",
-      "auth_code": "pqr678",
-      "description": "A casual spot for burgers, sandwiches, and beer",
-      "coordinates": {"longitude": -120.66, "latitude": 35.2795},
-      "completed": false
-    },
-    {
-      "location_name": "Taco Temple",
-      "auth_code": "stu901",
-      "description":
-          "Taco restaurant with a variety of unique and flavorful fillings",
-      "coordinates": {"longitude": -120.6625, "latitude": 35.2775},
-      "completed": false
-    },
-    {
-      "location_name": "The Spoon Room",
-      "auth_code": "vwx234",
-      "description": "Contemporary American cuisine with a focus on seafood",
-      "coordinates": {"longitude": -120.6675, "latitude": 35.2820},
-      "completed": false
-    },
-    {
-      "location_name": "The Station",
-      "auth_code": "zyx567",
-      "description": "A cozy spot for coffee, tea, and pastries",
-      "coordinates": {"longitude": -120.6635, "latitude": 35.2810},
-      "completed": false
-    }
-  ];
-
   Map<MarkerId, Marker> quest_markers = <MarkerId, Marker>{};
 
-  Future plotCoordinates() async {
-    for (int x = 0; x < quest_stops.length; x++) {
-      var marker = Marker(
-          markerId: MarkerId(quest_stops[x]["auth_code"]),
-          position: LatLng(quest_stops[x]["coordinates"]['latitude'],
-              quest_stops[x]["coordinates"]['longitude']));
+  Future loadQuest() async {
+    var quest_stops = Data.data["quests"]![0]["quest_stops"];
+    print(quest_stops);
+    var completed = 0;
 
-      quest_markers[MarkerId(quest_stops[x]["auth_code"])] = marker;
+    for (int x = 0; x < quest_stops.length; x++) {
+      if (quest_stops[x]["completed"] == false) {
+        print(progressVal);
+        var marker = Marker(
+            markerId: MarkerId(quest_stops[x]["auth_code"]),
+            position: LatLng(quest_stops[x]["coordinates"]['latitude'],
+                quest_stops[x]["coordinates"]['longitude']));
+
+        quest_markers[MarkerId(quest_stops[x]["auth_code"])] = marker;
+      } else {
+        completed += 1;
+      }
     }
+
+    progressVal = completed / totalProgressVal;
+
     setState(() {});
   }
 
   @override
   void initState() {
-    currentQuest = quests[0];
     setPermissions().then((value) {
       initialSetup();
     });
     super.initState();
+    timer =
+        Timer.periodic(const Duration(seconds: 2), (Timer t) => loadQuest());
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   final Completer<GoogleMapController> _controller =
@@ -167,11 +111,13 @@ class _DashboardState extends State<Dashboard> {
     var location = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
-    changeCameraPosition(location.latitude, location.longitude);
+    changeCameraPosition(location.latitude, location.longitude).then((value) {
+      setState(() {
+        ready = true;
+      });
+    });
 
     print("Latitude: " + location.latitude.toString());
-
-    plotCoordinates();
   }
 
   Future<void> changeCameraPosition(lat, lng) async {
@@ -352,11 +298,14 @@ class _DashboardState extends State<Dashboard> {
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                   ),
-                                  onPressed: () {
-                                    setState(() {
-                                      questStarted = true;
-                                    });
-                                  },
+                                  onPressed: ready == true
+                                      ? () {
+                                          setState(() {
+                                            questStarted = true;
+                                            loadQuest();
+                                          });
+                                        }
+                                      : null,
                                   child: Container(
                                       padding: const EdgeInsets.only(
                                           top: 5, bottom: 5),
@@ -410,7 +359,7 @@ class _DashboardState extends State<Dashboard> {
                                 child: LinearProgressIndicator(
                                   color: const Color.fromRGBO(21, 71, 52, 1),
                                   backgroundColor: Colors.grey,
-                                  value: 0.7,
+                                  value: progressVal,
                                   minHeight: 8,
                                 )),
                             Container(
