@@ -37,7 +37,11 @@ class _SplashState extends State<Splash> {
   Future handleLoad() async {
     Future.delayed(const Duration(milliseconds: 3000)).then((_) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const OnBoardingPage()));
+        context,
+        MaterialPageRoute(
+          builder: (context) => const OnBoardingPage(),
+        ),
+      );
     });
   }
 

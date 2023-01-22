@@ -7,7 +7,7 @@ import 'package:qr_bar_code_scanner_dialog/qr_bar_code_scanner_dialog.dart';
 import 'package:sloth/data.dart';
 
 class QuestStops extends StatefulWidget {
-  const QuestStops({super.key});
+  const QuestStops({Key? key}) : super(key: key);
 
   @override
   State<QuestStops> createState() => _QuestStopsState();

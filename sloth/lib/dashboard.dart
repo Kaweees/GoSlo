@@ -14,7 +14,7 @@ import 'package:sloth/quest_stops.dart';
 import 'package:sloth/quests.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+  const Dashboard({Key? key}) : super(key: key);
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -189,8 +189,9 @@ class _DashboardState extends State<Dashboard> {
                                   child: Text(
                                     "Start Quest",
                                     style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                                 Container(
@@ -376,10 +377,12 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                   onPressed: () {
                                     Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                            builder: (context) =>
-                                                const QuestStops()));
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder: (context) =>
+                                            const QuestStops(),
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                       padding: const EdgeInsets.only(
