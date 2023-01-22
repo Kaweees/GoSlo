@@ -146,15 +146,20 @@ class _DashboardState extends State<Dashboard> {
     var status = await Permission.location.status;
     var status1 = await Permission.locationAlways.status;
     var status2 = await Permission.locationWhenInUse.status;
+    var status3 = await Permission.camera.status;
 
     print("HERE: ++++++++++++++++++++++++++ : " + status.toString());
 
-    if (status.isGranted && status1.isGranted && status2.isGranted) {
+    if (status.isGranted &&
+        status1.isGranted &&
+        status2.isGranted &&
+        status3.isGranted) {
       print("All permissions granted");
     } else {
       print("REQUESTING::: ++++");
       await Permission.location.request();
       await Permission.locationAlways.request();
+      await Permission.camera.request();
     }
   }
 

@@ -17,6 +17,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         body: Container(
           margin: const EdgeInsets.only(left: 40.0, right: 40.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Spacer(),
               const Padding(
@@ -25,7 +26,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   'Welcome',
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    fontSize: 45,
+                    fontSize: 35,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -33,10 +34,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               const Padding(
                 padding: EdgeInsets.only(bottom: 5.0),
                 child: Text(
-                  'Ready to start your adventure around your town?',
+                  'Ready to start your adventure around town?',
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 19,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
@@ -45,33 +46,33 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 'lib/assets/welcome.png',
                 height: 250,
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => const ChooseRolePage(),
-                    ),
-                  );
-                },
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
                 child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.green,
-                    boxShadow: const [
-                      BoxShadow(color: Colors.green, spreadRadius: 3),
-                    ],
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 11, horizontal: 95),
-                  child: const Text(
-                    'Count me in!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 21.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  margin: const EdgeInsets.only(top: 10, bottom: 25),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 10,
+                        shadowColor: const Color.fromRGBO(21, 71, 52, 1),
+                        backgroundColor: const Color.fromRGBO(21, 71, 52, 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => const ChooseRolePage()));
+                      },
+                      child: Container(
+                          padding: const EdgeInsets.only(top: 5, bottom: 5),
+                          margin: const EdgeInsets.only(top: 13, bottom: 13),
+                          child: const Text(
+                            "Count me in!",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ))),
                 ),
               ),
               const Spacer(),

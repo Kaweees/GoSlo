@@ -1,5 +1,7 @@
 import 'package:animated_checkmark/animated_checkmark.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:qr_bar_code_scanner_dialog/qr_bar_code_scanner_dialog.dart';
 
 class QuestStops extends StatefulWidget {
   const QuestStops({super.key});
@@ -13,83 +15,8 @@ class _QuestStopsState extends State<QuestStops> {
   int stopsCompleted = 3;
   int _index = 0;
   bool animateCheck = false;
-
-  List quest_stops = [
-    {
-      "location_name": "Hearst Castle",
-      "auth_code": "Random Text",
-      "description":
-          "Visit the famous Hearst Castle, a historic mansion and National Historic Landmark that offers tours of the property and its gardens.",
-      "coordinates": {"longitude": 121.58, "latitude": 35.67},
-      "completed": false
-    },
-    {
-      "location_name": "Big Sky Cafe",
-      "auth_code": "abc123",
-      "description": "A popular breakfast spot in San Luis Obispo",
-      "coordinates": {"longitude": -120.6596156, "latitude": 35.2827524},
-      "completed": false
-    },
-    {
-      "location_name": "Thomas Hill Organics",
-      "auth_code": "def456",
-      "description":
-          "Farm-to-table restaurant with a focus on local, organic ingredients",
-      "coordinates": {"longitude": -120.6625, "latitude": 35.2812},
-      "completed": false
-    },
-    {
-      "location_name": "Novo",
-      "auth_code": "ghi789",
-      "description": "Contemporary Mediterranean and California cuisine",
-      "coordinates": {"longitude": -120.6645, "latitude": 35.2815},
-      "completed": false
-    },
-    {
-      "location_name": "Sci-Fi Pizza",
-      "auth_code": "jkl012",
-      "description": "Pizza restaurant with a science fiction theme",
-      "coordinates": {"longitude": -120.66, "latitude": 35.28},
-      "completed": false
-    },
-    {
-      "location_name": "Blacksmiths Kitchen",
-      "auth_code": "mno345",
-      "description":
-          "Rustic American cuisine with a focus on seasonal ingredients",
-      "coordinates": {"longitude": -120.6655, "latitude": 35.2825},
-      "completed": false
-    },
-    {
-      "location_name": "Mother's Tavern",
-      "auth_code": "pqr678",
-      "description": "A casual spot for burgers, sandwiches, and beer",
-      "coordinates": {"longitude": -120.66, "latitude": 35.2795},
-      "completed": false
-    },
-    {
-      "location_name": "Taco Temple",
-      "auth_code": "stu901",
-      "description":
-          "Taco restaurant with a variety of unique and flavorful fillings",
-      "coordinates": {"longitude": -120.6625, "latitude": 35.2775},
-      "completed": false
-    },
-    {
-      "location_name": "The Spoon Room",
-      "auth_code": "vwx234",
-      "description": "Contemporary American cuisine with a focus on seafood",
-      "coordinates": {"longitude": -120.6675, "latitude": 35.2820},
-      "completed": false
-    },
-    {
-      "location_name": "The Station",
-      "auth_code": "zyx567",
-      "description": "A cozy spot for coffee, tea, and pastries",
-      "coordinates": {"longitude": -120.6635, "latitude": 35.2810},
-      "completed": false
-    }
-  ];
+  final _qrBarCodeScannerDialogPlugin = QrBarCodeScannerDialog();
+  String? code;
 
   List<Step> steps = [];
 
@@ -171,27 +98,85 @@ class _QuestStopsState extends State<QuestStops> {
                                 ? Stepper(
                                     physics: const BouncingScrollPhysics(),
                                     currentStep: _index,
-                                    onStepCancel: () {
-                                      if (_index > 0) {
-                                        setState(() {
-                                          _index -= 1;
-                                        });
-                                      }
+                                    controlsBuilder: (BuildContext context,
+                                        ControlsDetails details) {
+                                      return Row(
+                                        children: <Widget>[
+                                          TextButton(
+                                            onPressed: details.onStepContinue,
+                                            child: const Text('Scan QR'),
+                                          ),
+                                        ],
+                                      );
                                     },
-                                    onStepContinue: () {
+                                    onStepCancel: () {},
+                                    onStepContinue: () async {
                                       print(_index);
                                       print(steps.length);
-                                      if (_index >= 0 &&
-                                          _index < steps.length) {
-                                        setState(() {
-                                          _index += 1;
-                                          Future.delayed(Duration(seconds: 1))
-                                              .then((value) {
-                                            animateCheck = true;
-                                          });
-                                        });
-                                        loadSteps();
-                                      }
+                                      String barcodeScanRes =
+                                          await FlutterBarcodeScanner
+                                                  .scanBarcode(
+                                                      "#154734",
+                                                      "Cancel",
+                                                      false,
+                                                      ScanMode.QR)
+                                              .then((code) {
+                                        if (code ==
+                                            quest_stops[_index]["auth_code"]) {
+                                          if (_index >= 0 &&
+                                              _index < steps.length) {
+                                            setState(() {
+                                              _index += 1;
+                                              Future.delayed(
+                                                      Duration(seconds: 1))
+                                                  .then((value) {
+                                                animateCheck = true;
+                                              });
+                                            });
+                                            loadSteps();
+                                          }
+                                        } else {
+                                          showDialog<void>(
+                                            context: context,
+                                            barrierDismissible:
+                                                false, // user must tap button!
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title:
+                                                    const Text('Invalid Code!'),
+                                                content: SingleChildScrollView(
+                                                  child: ListBody(
+                                                    children: const <Widget>[
+                                                      Text(
+                                                          'The code you scanned was invalid. Please try again.'),
+                                                    ],
+                                                  ),
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    child:
+                                                        const Text('Try again'),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        }
+                                        return "";
+                                      });
+
+                                      /*
+                                      _qrBarCodeScannerDialogPlugin
+                                          .getScannedQrBarCode(
+                                              context: context,
+                                              onCode: (code) {
+                                                
+                                              });
+                                              */
                                     },
                                     onStepTapped: (int index) {},
                                     steps: steps,
