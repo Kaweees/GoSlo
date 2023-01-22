@@ -24,6 +24,10 @@ Future<void> main() async {
   // Print the model.
   log(modelId.toString());
 
+// How the prompt looks in python:
+// prompt = "Give me a list of things to do based on the following prompt.
+// The list should be a json list containing objects that consist of the name of the event,
+// the location, the coordinates of the location" + input("PROMPT:")
   // Create a completion.
   final completion = await client.completions
       .create(
