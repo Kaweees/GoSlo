@@ -40,6 +40,9 @@ dependencies:
   permission_handler: ^10.2.0
   geolocator: ^9.0.2
   persistent_bottom_nav_bar: ^5.0.2
+  another_stepper: ^1.1.6
+  qr_bar_code_scanner_dialog: ^0.0.5
+  draggable_bottom_sheet: ^1.0.2
 
 dev_dependencies:
   flutter_test:
