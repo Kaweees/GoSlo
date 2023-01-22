@@ -41,12 +41,10 @@ class _DashboardState extends State<Dashboard> {
 
   Future loadQuest() async {
     var quest_stops = Data.data["quests"]![0]["quest_stops"];
-    print(quest_stops);
     var completed = 0;
 
     for (int x = 0; x < quest_stops.length; x++) {
       if (quest_stops[x]["completed"] == false) {
-        print(progressVal);
         var marker = Marker(
             markerId: MarkerId(quest_stops[x]["auth_code"]),
             position: LatLng(quest_stops[x]["coordinates"]['latitude'],
@@ -67,7 +65,6 @@ class _DashboardState extends State<Dashboard> {
       coinsGiven = true;
     }
 
-    print("PROGRESS VAL" + progressVal.toString() + " ++++++++++++");
 
     setState(() {});
   }
@@ -101,7 +98,6 @@ class _DashboardState extends State<Dashboard> {
     var status2 = await Permission.locationWhenInUse.status;
     var status3 = await Permission.camera.status;
 
-    print("HERE: ++++++++++++++++++++++++++ : " + status.toString());
 
     if (status.isGranted &&
         status1.isGranted &&
@@ -109,7 +105,6 @@ class _DashboardState extends State<Dashboard> {
         status3.isGranted) {
       print("All permissions granted");
     } else {
-      print("REQUESTING::: ++++");
       await Permission.location.request();
       await Permission.locationAlways.request();
       await Permission.camera.request();
@@ -126,7 +121,6 @@ class _DashboardState extends State<Dashboard> {
       });
     });
 
-    print("Latitude: " + location.latitude.toString());
   }
 
   Future<void> changeCameraPosition(lat, lng) async {

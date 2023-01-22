@@ -36,7 +36,6 @@ class _QuestStopsState extends State<QuestStops> {
     steps = [];
     quest_stops = Data.data['quests'][0]["quest_stops"];
 
-    print("loading DATA +++++++++++++++++++++++++++");
     _index = 0;
 
     quest_stops = Data.data['quests'][0]["quest_stops"];
@@ -45,8 +44,6 @@ class _QuestStopsState extends State<QuestStops> {
 
       if (quest_stops[x]['completed']) {
         stopsCompleted += 1;
-        print("INCREMENTING ++++++++++++++++++++++++++++++++++++++");
-        print(_index);
         _index += 1;
       }
       steps.add(Step(
@@ -174,8 +171,6 @@ class _QuestStopsState extends State<QuestStops> {
                                                       false,
                                                       ScanMode.QR)
                                               .then((code) {
-                                        print(code);
-                                        print(_index);
                                         try {
                                           if (code ==
                                               quest_stops[_index]
