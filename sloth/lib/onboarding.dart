@@ -52,27 +52,31 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   width: MediaQuery.of(context).size.width * 0.9,
                   margin: const EdgeInsets.only(top: 10, bottom: 25),
                   child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 10,
-                        shadowColor: const Color.fromRGBO(21, 71, 52, 1),
-                        backgroundColor: const Color.fromRGBO(21, 71, 52, 1),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
+                    style: ElevatedButton.styleFrom(
+                      elevation: 10,
+                      shadowColor: const Color.fromRGBO(21, 71, 52, 1),
+                      backgroundColor: const Color.fromRGBO(21, 71, 52, 1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => const ChooseRolePage()));
-                      },
-                      child: Container(
-                          padding: const EdgeInsets.only(top: 5, bottom: 5),
-                          margin: const EdgeInsets.only(top: 13, bottom: 13),
-                          child: const Text(
-                            "Count me in!",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ))),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => const ChooseRolePage(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(top: 5, bottom: 5),
+                      margin: const EdgeInsets.only(top: 13, bottom: 13),
+                      child: const Text(
+                        "Count me in!",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               const Spacer(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Storepage extends StatefulWidget {
-  const Storepage({super.key});
+  const Storepage({Key? key}) : super(key: key);
 
   @override
   State<Storepage> createState() => _StorepageState();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DiscoverPage extends StatefulWidget {
-  const DiscoverPage({super.key});
+  const DiscoverPage({Key? key}) : super(key: key);
 
   @override
   State<DiscoverPage> createState() => _DiscoverPageState();
@@ -77,14 +77,14 @@ class _DiscoverPageState extends State<DiscoverPage> {
             ),
             Container(
               margin: EdgeInsets.only(left: 25),
-              child: Row(children: [
+              child: Row(children: const [
                 ChoiceChip(
                   label: Text(
                     "Featured",
                     style: TextStyle(color: Colors.white),
                   ),
                   selected: true,
-                  selectedColor: const Color.fromRGBO(21, 71, 52, 1),
+                  selectedColor: Color.fromRGBO(21, 71, 52, 1),
                 ),
                 SizedBox(
                   width: 5,
@@ -95,7 +95,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     style: TextStyle(color: Colors.white),
                   ),
                   selected: false,
-                  selectedColor: const Color.fromRGBO(21, 71, 52, 1),
+                  selectedColor: Color.fromRGBO(21, 71, 52, 1),
                 ),
                 SizedBox(
                   width: 5,
@@ -106,7 +106,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     style: TextStyle(color: Colors.white),
                   ),
                   selected: false,
-                  selectedColor: const Color.fromRGBO(21, 71, 52, 1),
+                  selectedColor: Color.fromRGBO(21, 71, 52, 1),
                 ),
                 SizedBox(
                   width: 10,
@@ -117,7 +117,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     style: TextStyle(color: Colors.white),
                   ),
                   selected: false,
-                  selectedColor: const Color.fromRGBO(21, 71, 52, 1),
+                  selectedColor: Color.fromRGBO(21, 71, 52, 1),
                 ),
               ]),
             ),

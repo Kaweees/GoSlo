@@ -6,7 +6,7 @@ import 'package:sloth/discover.dart';
 import 'package:sloth/quests.dart';
 
 class Wrapper extends StatefulWidget {
-  const Wrapper({super.key});
+  const Wrapper({Key? key}) : super(key: key);
 
   @override
   State<Wrapper> createState() => _WrapperState();
